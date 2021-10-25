@@ -1,2 +1,2 @@
 # JS-Applications
- JS Applications module
+ <01 HTTP and REST Services>
