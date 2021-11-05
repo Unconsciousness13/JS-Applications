@@ -10,46 +10,47 @@
 </head>
 
 <body>
-    <button id="loadBooks">LOAD ALL BOOKS</button>
-    <table>
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Harry Poter</td>
-                <td>J. K. Rowling</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-            <tr>
-                <td>Game of Thrones</td>
-                <td>George R. R. Martin</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id='books'>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3"> <button id="loadBooks">LOAD ALL BOOKS</button></td>
+                </tr>
+            </tfoot>
+        </table>
 
-    <form>
-        <h3>FORM</h3>
-        <label>TITLE</label>
-        <input type="text" name="title" placeholder="Title...">
-        <label>AUTHOR</label>
-        <input type="text" name="author" placeholder="Author...">
-        <button>Submit</button>
-    </form>
+        <form class="createForm">
+            <h3>CREATE FORM</h3>
+            <label>TITLE</label>
+            <input type="text" name="title" placeholder="Title...">
+            <label>AUTHOR</label>
+            <input type="text" name="author" placeholder="Author...">
+            <p class="notification"></p>
+            <button>Submit</button>
+        </form>
+        <form class="editForm">
+            <h3>EDIT FORM</h3>
+            <label>TITLE</label>
+            <input type="text" name="title" placeholder="Title...">
+            <label>AUTHOR</label>
+            <input type="text" name="author" placeholder="Author...">
+            <p class="notification"></p>
+            <button>Save</button>
+            <input id="cancelBtn" type="button" value="Cancel" />
+        </form>
+
+    </div>
+
     <script src="./app.js"></script>
 </body>
 
 </html>
-
-<!--Feel free to change/update/modify the HTML Structure-->

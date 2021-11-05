@@ -1,172 +1,238 @@
-function attachEvents() {
-    fetchAllBooks();
-    let loadBtn = document.getElementById("loadBooks")
-    loadBtn.addEventListener("click", fetchAllBooks);
-    let tbody = document.querySelector("tbody");
-
-    let createForm = document.getElementsByTagName("form")[0];
-    let authorInput = document.getElementById("author");
-    let titleInput = document.getElementById("title");
-    let hForm = createForm.querySelector("h3");
-
-    //create invisible save button for the updates
-    let saveButton = document.createElement("button");
-    saveButton.textContent = "Save";
-    saveButton.style.display = "none";
-    createForm.appendChild(saveButton)
-
-    let createButton = createForm.querySelector("button");
-    createButton.addEventListener("click", function(event) {
-        event.preventDefault();
-        let author = authorInput.value;
-        let title = titleInput.value;
-        createNewBook(author, title);
-    });
+// const tbody = document.querySelector('tbody');
 
 
-    function fetchAllBooks() {
-        let requestOptions = {
-            method: 'GET',
-            redirect: 'follow'
-        };
+// const loadBooksButton = document.querySelector("#loadBooks");
+// loadBooksButton.addEventListener("click", loadBooks);
+// const createForm = document.querySelector("body > div > form.createForm > h3");
+// createForm.addEventListener('submit', onCreate);
+// tbody.addEventListener('click', onTableClick);
 
-        fetch("http://localhost:3030/jsonstore/collections/books", requestOptions)
-            .then(response => response.json())
-            .then(result => populateTable(result))
-            .catch(error => alert("No books available"));
-    }
+// loadBooks();
 
+// function onTableClick(e) {
+//     if (e.target.className == 'delete') {
+//         console.log('delete')
+//     } else if (e.target.className == 'edit') {
+//         console.log('edit')
+//     }
+// }
 
-    function populateTable(data) {
-        tbody.innerHTML = "";
-        let dataAr = Object.entries(data);
-        dataAr.forEach(book => {
-            let bookObj = {
-                _id: book[0],
-                title: book[1].title,
-                author: book[1].author
-            }
-            createTableRow(bookObj)
-        });
-        titleInput.value = "";
-        authorInput.value = "";
-    }
+// async function onCreate(e) {
+//     e.preventDefault();
+//     const formData = new FormData(e.target);
 
-    function createTableRow(book) {
-        console.log(book)
-        let bookTr = document.createElement("tr");
-        bookTr.id = book._id;
-        let authorTd = document.createElement("td");
-        authorTd.textContent = book.author;
+//     const author = formData.get('author');
+//     const title = formData.get('title');
 
-        let titleTd = document.createElement("td");
-        titleTd.textContent = book.title;
+//     const result = await createBook({ author, title });
+//     tbody.append(createRow(result._id, result));
+//     e.target.reset();
 
-        let buttonsTd = document.createElement("td");
+// }
 
-        let editBtn = document.createElement("button");
-        editBtn.textContent = "Edit";
-        editBtn.addEventListener("click", (() => editBook(bookTr)));
+// async function request(url, options) {
+//     const response = await fetch(url, options);
+//     if (options && options.body != undefined) {
+//         Object.assign(options, {
+//             headers: { 'Content-Type': 'application/json' },
+//         });
+//     }
 
-        let deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "delete";
-        deleteBtn.addEventListener("click", (() => deleteBook(bookTr)));
+//     if (response.ok !== true) {
+//         const error = await response.json();
+//         alert(error.message);
+//         throw new Error(error.message);
+//     }
 
-        buttonsTd.appendChild(editBtn);
-        buttonsTd.appendChild(deleteBtn);
+//     const data = await response.json();
 
-        bookTr.appendChild(titleTd);
-        bookTr.appendChild(authorTd);
-        bookTr.appendChild(buttonsTd);
-        tbody.appendChild(bookTr);
+//     return data;
+// }
 
-    }
+// async function loadBooks() {
+//     const books = await request('http://localhost:3030/jsonstore/collections/books');
 
-    function createNewBook(author, title) {
-        authorInput.value = "";
-        titleInput.value = "";
+//     const result = Object.entries(books).map(([id, book]) => createRow(id, book));
 
+//     tbody.replaceChildren(...result);
+// }
 
-        console.log("create a book!")
-        console.log(author, title)
-        let newBook = {
-                "author": author,
-                "title": title
-            }
-            //post book
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+// function createRow(id, book) {
+//     const row = document.createElement('tr');
+//     const tdTitle = document.createElement('td');
+//     tdTitle.textContent = `${book.title}`;
+//     const tdAuthor = document.createElement('td');
+//     tdAuthor.textContent = `${book.author}`;
+//     const tdButtons = document.createElement('td');
+//     tdButtons.innerHTML = `<td data-id=${id}><button class="edit">Edit</button><button class="delete">Delete</button></td>`;
+//     row.appendChild(tdTitle);
+//     row.appendChild(tdAuthor);
+//     row.appendChild(tdButtons);
+//     // const row = document.createElement('tr');
+//     // row.innerHTML = `<td>${book.title}</td><td>${book.author}</td><td><button class="edit" data-id="${id}">Edit</button></td><button class="delete" data-id="${id}">Delete</button></td>`;
 
-        let requestOptions = {
-            method: 'POST',
-            headers: myHeaders,
-            body: JSON.stringify(newBook),
-            redirect: 'follow'
-        };
+//     return row;
 
-        fetch("http://localhost:3030/jsonstore/collections/books", requestOptions)
-            .then(response => response.json())
-            .then(result => createTableRow(result))
-            .catch(error => console.log('error', error));
-    }
+// }
 
-    function deleteBook(bookTr) {
-        console.log(bookTr)
-        let myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
+// async function createBook(book) {
+//     const result = await request('http://localhost:3030/jsonstore/collections/books', {
+//         method: 'POST',
+//         body: JSON.stringify(book)
+//     });
+//     return result;
+// }
 
-        var requestOptions = {
-            method: 'DELETE',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
+// async function updateBook(id, book) {
+//     const result = await request('http://localhost:3030/jsonstore/collections/books/' + id, {
+//         method: 'PUT',
+//         body: JSON.stringify(book)
+//     });
+//     return result;
 
-        fetch(`http://localhost:3030/jsonstore/collections/books/${bookTr.id}`, requestOptions)
-            .then(response => response.json())
-            .then(result => fetchAllBooks())
-            .catch(error => console.log('error', error));
-    }
+// }
 
-    function editBook(bookTr) {
-        console.log(bookTr)
-        hForm.textContent = "Edit FORM";
-        authorInput.value = bookTr.childNodes[1].textContent;
-        title.value = bookTr.childNodes[0].textContent;
-        saveButton.style.display = "block";
-        createButton.style.display = "none";
-        saveButton.addEventListener("click", function(e) {
-            e.preventDefault();
+// async function deleteBook(id) {
+//     const result = await request('http://localhost:3030/jsonstore/collections/books/' + id, {
+//         method: 'DELETE',
+//     });
+//     return result;
+// }
 
-            console.log("save pressed")
-            let myHeaders = new Headers();
-            myHeaders.append("Content-Type", "application/json");
+const tbody = document.querySelector('tbody');
+const createForm = document.querySelector('.createForm');
+const editForm = document.querySelector('.editForm');
+document.getElementById('loadBooks').addEventListener('click', loadBooks);
+createForm.addEventListener('submit', onCreate);
+editForm.addEventListener('submit', onEditSubmit);
+tbody.addEventListener('click', onTableClick);
 
-            var raw = JSON.stringify({
-                author: authorInput.value,
-                title: titleInput.value,
-                _id: bookTr.id
-            });
+loadBooks();
 
-            var requestOptions = {
-                method: 'PUT',
-                headers: myHeaders,
-                body: raw,
-                redirect: 'follow'
-            };
+async function onEditSubmit(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
 
-            fetch(`http://localhost:3030/jsonstore/collections/books/${bookTr.id}`, requestOptions)
-                .then(response => response.json())
-                .then(result => fetchAllBooks())
-                .catch(error => console.log('error', error));
+    const id = formData.get('id');
+    const author = formData.get('author');
+    const title = formData.get('title');
 
-            hForm.textContent = "FORM";
-            saveButton.style.display = "none";
-            createButton.style.display = "block";
+    const result = await updateBook(id, { author, title });
 
-        })
+    event.target.reset();
+    createForm.style.display = 'block';
+    editForm.style.display = 'none';
 
-    }
-
+    loadBooks();
 }
 
-attachEvents();
+function onTableClick(event) {
+    if (event.target.className == 'delete') {
+        onDelete(event.target);
+    } else if (event.target.className == 'edit') {
+        onEdit(event.target);
+    }
+}
+
+async function onEdit(button) {
+    const id = button.parentElement.dataset.id;
+    const book = await loadBookById(id);
+
+    createForm.style.display = 'none';
+    editForm.style.display = 'block';
+
+    editForm.querySelector('[name="id"]').value = id;
+    editForm.querySelector('[name="author"]').value = book.author;
+    editForm.querySelector('[name="title"]').value = book.title;
+}
+
+async function onDelete(button) {
+    const id = button.parentElement.dataset.id;
+    await deleteBook(id);
+    button.parentElement.parentElement.remove();
+}
+
+async function onCreate(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    const author = formData.get('author');
+    const title = formData.get('title');
+
+    const result = await createBook({ author, title });
+    tbody.appendChild(createRow(result._id, result));
+    event.target.reset();
+}
+
+async function loadBooks() {
+    const books = await request('http://localhost:3030/jsonstore/collections/books');
+
+    const result = Object.entries(books).map(([id, book]) => createRow(id, book));
+    tbody.replaceChildren(...result);
+}
+
+async function loadBookById(id) {
+    const book = await request('http://localhost:3030/jsonstore/collections/books/' + id);
+    return book;
+}
+
+function createRow(id, book) {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${book.title}</td>
+<td>${book.author}</td>
+<td data-id=${id}>
+    <button class="edit">Edit</button>
+    <button class="delete">Delete</button>
+</td>`;
+
+    return row;
+}
+
+async function createBook(book) {
+    const result = await request('http://localhost:3030/jsonstore/collections/books', {
+        method: 'post',
+        body: JSON.stringify(book)
+    });
+
+    return result;
+}
+
+async function updateBook(id, book) {
+    const result = await request('http://localhost:3030/jsonstore/collections/books/' + id, {
+        method: 'put',
+        body: JSON.stringify(book)
+    });
+
+    return result;
+}
+
+async function deleteBook(id) {
+    const result = await request('http://localhost:3030/jsonstore/collections/books/' + id, {
+        method: 'delete'
+    });
+
+    return result;
+}
+
+
+async function request(url, options) {
+    if (options && options.body != undefined) {
+        Object.assign(options, {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+    }
+
+    const response = await fetch(url, options);
+
+    if (response.ok != true) {
+        const error = await response.json();
+        alert(error.message);
+        throw new Error(error.message);
+    }
+
+    const data = await response.json();
+
+    return data;
+}
