@@ -25,6 +25,7 @@ async function createBook(event) {
 
     const form = new FormData(event.target);
 
+
     const book = {
         author: form.get('author'),
         title: form.get('title')
@@ -82,13 +83,11 @@ function handleTableClick(event) {
         const bookId = event.target.parentNode.parentNode.dataset.id;
         loadBookForEditting(bookId);
     } else if (event.target.className == 'deleteBtn') {
-        const confirmed = confirm('Are you sure you want to delete this book?');
-        if (confirmed) {
-            const bookId = event.target.parentNode.parentNode.dataset.id;
-            deleteBook(bookId);
-        }
+        const bookId = event.target.parentNode.parentNode.dataset.id;
+        deleteBook(bookId);
     }
 }
+
 
 function start() {
     document.querySelector('tbody').innerHTML = '';
