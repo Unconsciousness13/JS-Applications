@@ -25,7 +25,6 @@ async function getStudents() {
         addStudentToDom(fn, ln, faNu, gr);
 
     }
-
 }
 
 async function addStudent(e) {
@@ -53,6 +52,8 @@ async function addStudent(e) {
     facultyNumberInput.value = "";
     gradeInput.value = "";
 
+    tableBody.replaceChildren();
+    getStudents();
     return result;
 
 }
@@ -79,5 +80,7 @@ function addStudentToDom(fn, ln, faNu, gr) {
     tr.appendChild(thGrad);
 
     tableBody.appendChild(tr);
+
+
 
 }
