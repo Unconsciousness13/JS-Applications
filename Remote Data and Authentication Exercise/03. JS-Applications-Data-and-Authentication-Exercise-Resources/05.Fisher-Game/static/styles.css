@@ -141,6 +141,50 @@ hr {
     padding-left: 15px;
 }
 
+.load {
+    background-color: #6c8b47;
+}
+
+.load:hover {
+    background-color: greenyellow;
+}
+
+.add {
+    background-color: #6c8b47;
+}
+
+.add:hover {
+    background-color: greenyellow;
+}
+
+.add:disabled {
+    background-color: grey;
+}
+
+.update {
+    background-color: #ffee06;
+}
+
+.update:hover {
+    background-color: rgb(247, 170, 6);
+}
+
+.update:disabled {
+    background-color: grey;
+}
+
+.delete {
+    background-color: #ac2503;
+}
+
+.delete:hover {
+    background-color: rgb(255, 0, 0);
+}
+
+.delete:disabled {
+    background-color: grey;
+}
+
 #user {
     display: none;
 }

@@ -79,6 +79,7 @@ export async function updateCatches() {
             if (el.ownerid == userIdToken) {
                 el.querySelector(`.update`).disabled = false;
                 el.querySelector(`.delete`).disabled = false;
+
             }
         });
     }
