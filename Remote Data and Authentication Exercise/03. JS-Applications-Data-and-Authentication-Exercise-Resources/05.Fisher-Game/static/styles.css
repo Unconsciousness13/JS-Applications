@@ -185,6 +185,10 @@ hr {
     background-color: grey;
 }
 
+.email span {
+    color: blue;
+}
+
 #user {
     display: none;
 }

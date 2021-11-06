@@ -1,4 +1,5 @@
 const userToken = sessionStorage.getItem(`userToken`);
+const email = sessionStorage.getItem(`email`);
 import { updateCatches } from "./modules.js";
 
 if (userToken != null) {
@@ -6,7 +7,7 @@ if (userToken != null) {
     document.getElementById(`user`).style.display = `inline-block`;
     document.querySelector(`#addForm .add`).disabled = false;
     document.querySelector(`#catches h3`).textContent = `Click Load to preview catches,\r\nor Add to add catch!`;
-
+    document.querySelector(".email span").textContent = `${email}`;
     document.getElementById(`logoutBtn`).addEventListener(`click`, async(e) => {
         e.preventDefault();
         const response = await fetch(`http://localhost:3030/users/logout`, {
