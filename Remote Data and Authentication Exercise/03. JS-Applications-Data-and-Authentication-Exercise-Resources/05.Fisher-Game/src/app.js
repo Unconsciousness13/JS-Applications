@@ -1,7 +1,8 @@
 const userToken = sessionStorage.getItem(`userToken`);
 const email = sessionStorage.getItem(`email`);
-const homeButton =
-    import { updateCatches } from "./modules.js";
+const homeButton = document.getElementById('home')
+
+import { updateCatches } from "./modules.js";
 
 if (userToken != null) {
 
