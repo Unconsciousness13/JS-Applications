@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Parisienne&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;900&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3cd69e2433.js" crossorigin="anonymous"></script>
+    <script type="module" src="./src/app.js"></script>
     <title>SoftUni Forum</title>
 </head>
 
@@ -25,15 +26,20 @@
         <nav>
             <ul>
                 <li>
-                    <a href="#">Home</a>
+                    <a id="homeLink" href="#">Home</a>
                 </li>
             </ul>
         </nav>
     </header>
 
-    <!-- homepage -->
     <div class="container">
         <main>
+
+        </main>
+    </div>
+
+    <div id="views">
+        <section id="homeCreateSection">
             <div class="new-topic-border">
                 <div class="header-background">
                     <span>New Topic</span>
@@ -52,23 +58,83 @@
                         <textarea type="text" name="postText" id="postText" rows="8" class="height"></textarea>
                     </div>
                     <div class="new-topic-buttons">
-                        <button class="cancel">Cancel</button>
-                        <button class="public">Post</button>
+                        <button type="reset" class="cancel">Cancel</button>
+                        <button type="submit" class="public">Post</button>
                     </div>
-
                 </form>
             </div>
-
-            <div class="topic-title">
-
-                <!-- topic component  -->
-                <div class="topic-container">
-                    
+        </section>
+        <section id="homeCommentsSection">
+            <div class="topic-container">
+                <div class="topic-name-wrapper">
+                    <div class="topic-name">
+                        <a href="#" class="normal">
+                            <h2 id="titleH2">Angular 10</h2>
+                        </a>
+                        <div class="columns">
+                            <div>
+                                <p>Date: <time>2020-10-10T12:08:28.451Z</time></p>
+                                <div class="nick-name">
+                                    <p>Username: <span>David</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                
+            </div>
+        </section>
+        <section id="postSubmitCommentSection">
+            <div class="container">
+                <div class="theme-content">
+                    <div class="answer-comment">
+                        <p><span>currentUser</span> comment:</p>
+                        <div class="answer">
+                            <form>
+                                <textarea name="commentText" id="comment" cols="30" rows="10"></textarea>
+                                <div>
+                                    <label for="username">Username <span class="red">*</span></label>
+                                    <input type="text" name="username" id="usernamePost">
+                                </div>
+                                <button>Post</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="postDisplayCommentsSection">
+            <div class="container">
+                <div class="theme-content">
+                    <div class="theme-title">
+                        <div class="theme-name-wrapper">
+                            <div id="postName" class="theme-name">
+                                <h2>Angular 10</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <div class="header">
+                            <img src="./static/profile.png" alt="avatar">
+                            <p><span id="currPostUserName">David</span> posted on <time id="currPostDate">2020-10-10 12:08:28</time></p>
 
-        </main>
-
+                            <p class="post-content">Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure facere sint dolorem quam, accusantium ipsa veniam laudantium inventore aut, tenetur quibusdam doloribus. Incidunt odio nostrum facilis ipsum dolorem deserunt illum?</p>
+                        </div>
+                        <div id="commentSection">
+                            <div id="user-comment">
+                                <div class="topic-name-wrapper">
+                                    <div class="topic-name">
+                                        <p><strong>Daniel</strong> commented on <time>3/15/2021, 12:39:02 AM</time></p>
+                                        <div class="post-content">
+                                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure facere sint dolorem quam.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <footer>
