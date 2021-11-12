@@ -2,13 +2,15 @@
     "name": "05.-js-applications-architecture-and-testing-lab-resources",
     "version": "1.0.0",
     "description": "",
-    "main": "text.js",
+    "main": "testa.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "chai": "^4.3.4",
         "playwright-chromium": "^1.16.3"
-    }
+    },
+    "dependencies": {}
 }
