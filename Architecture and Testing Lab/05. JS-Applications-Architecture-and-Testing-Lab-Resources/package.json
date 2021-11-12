@@ -1,0 +1,14 @@
+{
+    "name": "05.-js-applications-architecture-and-testing-lab-resources",
+    "version": "1.0.0",
+    "description": "",
+    "main": "text.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "playwright-chromium": "^1.16.3"
+    }
+}
