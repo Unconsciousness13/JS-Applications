@@ -1,3 +1,4 @@
+import { logout } from './api/api.js';
 import { showCatalogPage } from './catalog.js';
 import { showHomePage, showAboutPage } from './home.js';
 import { showLoginPage } from './login.js';
@@ -42,15 +43,9 @@ export function updateUserNav() {
 
 async function onLogout(event) {
     event.stopImmediatePropagation();
-    const { token } = JSON.parse(sessionStorage.getItem('userData'));
 
-    await fetch('http://localhost:3030/users/logout', {
-        headers: {
-            'X-Authorization': token
-        }
-    });
+    await logout();
 
-    sessionStorage.removeItem('userData');
     updateUserNav();
     showHomePage();
 }
