@@ -21,3 +21,33 @@ async function request(url, options) {
         throw err;
     }
 }
+
+async function get(url) {
+    return request(url);
+}
+
+async function post(url, data) {
+    return request(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': JSON.parse(sessionStorage.getItem('userData')).token
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+async function put(url, data) {
+    return request(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': JSON.parse(sessionStorage.getItem('userData')).token
+        },
+        body: JSON.stringify(data)
+    });
+}
+
+async function del(url) {
+
+}
