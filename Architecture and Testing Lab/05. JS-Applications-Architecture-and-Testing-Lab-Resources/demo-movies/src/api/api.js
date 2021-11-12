@@ -1,6 +1,8 @@
+const host = 'http://localhost:3030';
+
 async function request(url, options) {
     try {
-        const response = await fetch(url, options);
+        const response = await fetch(host + url, options);
 
         if (response.ok != true) {
             if (response.status == 403) {
@@ -22,32 +24,45 @@ async function request(url, options) {
     }
 }
 
+function createOptions(method = 'get', data) {
+    const options = {
+        method,
+        headers: {
+
+        }
+    };
+
+    if (data != undefined) {
+        options.headers['Content-Type'] = 'application/json'
+        options.body = JSON.stringify(data);
+    }
+
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    if (userData != null) {
+        options.headers['X-Authorization'] = userData.token;
+    }
+
+    return options;
+}
 async function get(url) {
-    return request(url);
+    return request(url, createOptions());
 }
 
 async function post(url, data) {
-    return request(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': JSON.parse(sessionStorage.getItem('userData')).token
-        },
-        body: JSON.stringify(data)
-    });
+    return request(url, createOptions('post', data));
 }
 
 async function put(url, data) {
-    return request(url, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': JSON.parse(sessionStorage.getItem('userData')).token
-        },
-        body: JSON.stringify(data)
-    });
+    return request(url, createOptions('put', data));
 }
 
 async function del(url) {
-
+    return request(url, createOptions('delete'));
 }
+
+export {
+    get,
+    post,
+    put,
+    del
+};
