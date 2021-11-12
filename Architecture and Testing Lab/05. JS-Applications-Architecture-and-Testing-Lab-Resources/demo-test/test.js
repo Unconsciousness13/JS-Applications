@@ -30,8 +30,7 @@ describe('E2E tests', async function() {
         await page.goto('http://localhost:5500');
         await page.waitForSelector('.accordion');
 
-        await page.click('text="More"');
-
+        await page.click('text="More"'); // casesensitive and exactly match
         await page.waitForResponse(/articles\/details/i);
 
         await page.waitForSelector('.accordion p');
@@ -41,7 +40,18 @@ describe('E2E tests', async function() {
     });
 
     it('Less button works', async() => {
+        await page.goto('http://localhost:5500');
+        await page.waitForSelector('.accordion');
 
+        await page.click('text="More"');
+        await page.waitForResponse(/articles\/details/i);
+
+        await page.waitForSelector('.accordion p', { state: 'visible' });
+
+        await page.click('text=Less'); //None casesensitive
+        const visible = await page.isVisible('.accordion p');
+
+        expect(visible).to.be.false;
     });
 
 
