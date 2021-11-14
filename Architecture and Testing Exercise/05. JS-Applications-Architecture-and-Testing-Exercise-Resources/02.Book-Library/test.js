@@ -1,151 +1,59 @@
 const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
-
 let browser, page; // Declare reusable variables
-
-let url = 'http://127.0.0.1:5500/02.Book-Library/';
-
-function fakeResponse(data) {
-    return {
-        status: 200,
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    };
-}
-
-const books = {
-    1: {
-        author: 'Myself',
-        title: 'Django framework'
-    },
-    2: {
-        author: 'Anonymous',
-        title: 'How to hack a server with Python'
-    }
-}
-
-const createBook = {
-    1: {
-        author: 'Victor',
-        title: 'Python > C#'
-    },
-    2: {
-        author: 'Doncho',
-        title: 'Python master'
-    },
-    3: {
-        author: 'Ines',
-        title: 'Next Python master',
-        _id: 3
-    }
-}
-
-let updateBook = {
-    author: 'Victor Reloading',
-    title: 'Python is x2 > C#',
-}
-
-function createRow([id, book]) {
-    const result = `
-    <tr data-id="${id}">
-        <td>${book.title}</td>
-        <td>${book.author}</td>
-        <td>
-            <button class="editBtn">Edit</button>
-            <button class="deleteBtn">Delete</button>
-        </td>
-    </tr>`;
-    return result;
-}
-
-
-
-describe('E2E tests', function() {
-    this.timeout(10000)
-    before(async() => { browser = await chromium.launch(); });
+describe('E2E tests', async function() {
+    this.timeout(6000)
+    before(async() => { browser = await chromium.launch({ headless: false, slowMo: 1000 }); });
     after(async() => { await browser.close(); });
     beforeEach(async() => { page = await browser.newPage(); });
     afterEach(async() => { await page.close(); });
-
-    describe('load books', () => {
-        it('should get all the books from server', async() => {
-            await page.route('**/jsonstore/collections/books', route => route.fulfill(fakeResponse(books)));
-            await page.goto(url);
-
-            const [response] = await Promise.all([
-                page.waitForResponse('**/jsonstore/collections/books'),
-                page.click('#loadBooks'),
-            ]);
-
-            let result = await response.json();
-            expect(result).to.eql(books);
-        });
-
+    it('loads static page with button "Load all books"', async function() {
+        await page.goto('http://localhost:5500/02.Book-Library/index.html');
+        await page.click('text=LOAD ALL BOOKS')
+        const content = await page.$eval('tbody tr', (tr) => tr.textContent)
+        expect(content).includes('Edit')
+        expect(content).includes('Delete')
 
     });
-
-    describe('add book', () => {
-        it('should call server with correct data', async() => {
-            let data = null;
-            let expectedResult = {
-                author: 'next',
-                title: 'star wars'
-            };
-
-            await page.route('**/jsonstore/collections/books', (route, request) => {
-                if (request.method().toLowerCase() === 'post') {
-                    data = request.postData();
-                    route.fulfill(fakeResponse(createBook))
-                }
-            });
-
-            await page.goto(url);
-            await page.fill('#createForm input[name="author"]', expectedResult.author);
-            await page.fill('#createForm input[name="title"]', expectedResult.title);
-
-            const [response] = await Promise.all([
-                page.waitForResponse('**/jsonstore/collections/books'),
-                page.click('#createForm button'),
-            ]);
-
-            let result = await JSON.parse(data);
-            expect(result).to.eql(expectedResult);
-        });
-
-
+    it('Deletes book', async function() {
+        await page.goto('http://localhost:5500/02.Book-Library/index.html');
+        await page.click('text=LOAD ALL BOOKS')
+        page.on('dialog', dialog => dialog.accept());
+        const [request] = await Promise.all([
+            page.waitForRequest(request => request.url().includes('/collections/books') && request.method() === 'DELETE'),
+            page.click('text=Delete')
+        ]);
+        const postData = JSON.parse(request.postData())
+        expect(postData).to.null
     });
-    describe('edit book', () => {
-        it('should update server with correct data', async() => {
-            let data = null;
-            let expectedResult = {
-                author: 'Victor Reloading',
-                title: 'Python is x2 > C#',
-                _id: 3
-            };
+    it('Add book', async function() {
+        await page.goto('http://localhost:5500/02.Book-Library/index.html');
+        const title = 'Python > C#'
+        const author = 'Doncho Minkov'
+        await page.fill('[name="title"]', title)
+        await page.fill('[name="author"]', author)
+        const [response] = await Promise.all([
+            page.waitForRequest(request => request.url().includes('/collections/books') && request.method() === 'POST'),
+            page.click('text=Submit'),
+        ]);
 
-            await page.route('**/jsonstore/collections/books' + expectedResult._id, (route, request) => {
-                if (request.method().toLowerCase() === 'put') {
-                    data = request.putData();
-                    route.fulfill(fakeResponse(updateBook))
-                }
-            });
+        const postData = JSON.parse(response.postData())
+        expect(postData.author).to.equal(author)
+    })
+    it('Edit book', async function() {
+        await page.goto('http://localhost:5500/02.Book-Library/index.html');
+        await page.click('text=LOAD ALL BOOKS')
+        await page.click('text = Edit')
+        this.timeout(6000)
+        await page.textContent('body:has(form#editForm)');
+        const name = await page.textContent('input[name="title"]');
+        const [response] = await Promise.all([
+            page.waitForRequest(request => request.url().includes('/collections/books') && request.method() === 'PUT'),
+            page.click('text=Save'),
+        ]);
 
-            await page.goto(url);
-
-            const [res] = await Promise.all([
-                page.waitForResponse('**/jsonstore/collections/books'),
-                page.click('#loadBooks'),
-                page.click('.editBtn'),
-            ]);
-
-            let result = await JSON.parse(data);
-            expect(result).to.eql(updateBook);
-        });
-
-
-    });
-
-});
+        const postData = JSON.parse(response.postData())
+        expect(postData.title).to.contains(name)
+        console.log(name)
+    })
+})
