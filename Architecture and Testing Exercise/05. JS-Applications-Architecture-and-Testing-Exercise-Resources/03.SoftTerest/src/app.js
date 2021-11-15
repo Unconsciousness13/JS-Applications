@@ -46,6 +46,7 @@ function onNavigate(event) {
 
 function goTo(name, ...params) {
     const view = views[name];
+
     if (typeof view == 'function') {
         view(ctx, ...params);
     }
