@@ -33,6 +33,8 @@ const ctx = {
     goTo,
     showSection
 };
+// start application homeview
+goTo('home');
 
 function onNavigate(event) {
     const name = links[event.target.id];
