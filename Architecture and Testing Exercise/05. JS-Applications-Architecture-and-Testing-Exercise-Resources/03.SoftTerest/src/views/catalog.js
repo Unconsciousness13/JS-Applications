@@ -2,9 +2,9 @@ import { e } from '../dom.js';
 import { getAllIdeas } from '../api/data.js';
 
 
+
 const section = document.getElementById('dashboard-holder');
 section.remove();
-
 
 export async function showCatalogPage(ctx) {
     ctx.showSection(section);
@@ -26,13 +26,12 @@ function createIdeaCard(idea) {
     element.style.width = '20rem';
     element.style.height = '18rem';
 
-    element.innerHTML = `
-        <div class="card-body">
-            <p class="card-text">${idea.title}</p>
-        </div>
-        <img class="card-image" src="${idea.img}" alt="Card image cap">
-        <a data-id="${idea._id}" class="btn" href="">Details</a>
-        </div> `;
+    element.innerHTML = `<div class="card-body">
+<p class="card-text">${idea.title}</p>
+</div>
+<img class="card-image" src="${idea.img}" alt="Card image cap">
+<a data-id="${idea._id}" class="btn" href="">Details</a>
+</div>`;
 
     return element;
 }
