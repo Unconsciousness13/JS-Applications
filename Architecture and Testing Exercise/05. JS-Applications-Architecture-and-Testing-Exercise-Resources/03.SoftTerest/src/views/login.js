@@ -1,5 +1,4 @@
 import { login } from '../api/api.js';
-import { e } from '../dom.js';
 
 
 const section = document.getElementById('loginPage');
