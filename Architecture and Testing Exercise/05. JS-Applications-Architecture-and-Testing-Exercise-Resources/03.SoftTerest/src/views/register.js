@@ -29,6 +29,7 @@ async function onSubmit(event) {
     }
 
     await register(email, password);
+    form.reset();
     ctx.goTo('home');
     ctx.updateNav();
 }

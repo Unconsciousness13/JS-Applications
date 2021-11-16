@@ -18,7 +18,7 @@ async function loadIdeas() {
     const ideas = await getAllIdeas();
 
     if (ideas.length == 0) {
-        section.replaceChildren(e('h1', {}, 'No ideas yet! Be the first one :'));
+        section.replaceChildren(e('h1', {}, 'No ideas yet! Be the first one :)'));
     } else {
         const fragment = document.createDocumentFragment();
         ideas.map(createIdeaCard).forEach(i => fragment.appendChild(i));

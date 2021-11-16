@@ -25,9 +25,14 @@ function createIdeaDiv(idea) {
         e('h2', { className: 'display-5' }, idea.title),
         e('p', { className: 'infoType' }, 'Description:'),
         e('p', { className: 'idea-description' }, idea.description)));
-    fragment.appendChild(e('div', { className: 'text-center' },
-        e('a', { className: 'btn detb', href: '' }, 'Delete')
-    ));
+
+    const userData = JSON.parse(sessionStorage.getItem('userData'));
+    if (userData && userData.id == idea._ownerId) {
+        fragment.appendChild(e('div', { className: 'text-center' },
+            e('a', { className: 'btn detb', href: '' }, 'Delete')
+        ));
+    }
+
 
     return fragment;
 }
