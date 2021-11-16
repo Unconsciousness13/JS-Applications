@@ -17,11 +17,15 @@ export async function showCatalogPage(ctxTarget) {
 async function loadIdeas() {
     const ideas = await getAllIdeas();
 
-    const fragment = document.createDocumentFragment();
+    if (ideas.length == 0) {
+        section.replaceChildren(e('h1', {}, 'No ideas yet! Be the first one :'));
+    } else {
+        const fragment = document.createDocumentFragment();
+        ideas.map(createIdeaCard).forEach(i => fragment.appendChild(i));
+        section.replaceChildren(fragment);
+    }
 
-    ideas.map(createIdeaCard).forEach(i => fragment.appendChild(i));
 
-    section.replaceChildren(fragment);
 }
 
 function createIdeaCard(idea) {
@@ -40,7 +44,7 @@ function createIdeaCard(idea) {
 }
 
 function onDetails(e) {
-    if (e.target.tagName = 'A') {
+    if (e.target.tagName == 'A') {
         const id = e.target.dataset.id;
         e.preventDefault();
         ctx.goTo('details', id);
