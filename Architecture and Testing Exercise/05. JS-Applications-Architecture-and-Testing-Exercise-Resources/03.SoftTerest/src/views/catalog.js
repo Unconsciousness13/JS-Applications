@@ -5,8 +5,11 @@ import { getAllIdeas } from '../api/data.js';
 
 const section = document.getElementById('dashboard-holder');
 section.remove();
+section.addEventListener('click', onDetails);
+let ctx = null;
 
-export async function showCatalogPage(ctx) {
+export async function showCatalogPage(ctxTarget) {
+    ctx = ctxTarget;
     ctx.showSection(section);
     loadIdeas();
 }
@@ -34,4 +37,12 @@ function createIdeaCard(idea) {
 </div>`;
 
     return element;
+}
+
+function onDetails(e) {
+    if (e.target.tagName = 'A') {
+        const id = e.target.dataset.id;
+        e.preventDefault();
+        ctx.goTo('details', id);
+    }
 }
