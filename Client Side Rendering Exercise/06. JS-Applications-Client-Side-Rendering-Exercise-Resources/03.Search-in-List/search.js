@@ -15,7 +15,7 @@ function update(){
 }
 
 function onSearch(){
-   const match = input.value.toLocaleLowerCase();
+   const match = input.value.trim().toLocaleLowerCase();
    let matches = 0;
    for (let town of towns) {
       if( match && town.name.toLocaleLowerCase().includes(match)) {
