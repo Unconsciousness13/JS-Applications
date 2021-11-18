@@ -10,7 +10,7 @@ const createTemplate = (onSuccess) => html `<form  @submit=${ev => onSubmit(ev,o
 </form>`;
 
 export function showCreate(ctx) {
-    if (ctx.books == undefined) {
+    if (ctx.book == undefined) {
         return createTemplate(ctx.update);
     } else {
         return null;

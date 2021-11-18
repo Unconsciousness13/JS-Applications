@@ -14,7 +14,7 @@ async function request(url, method = 'get', data) {
         method,
         headers: {}
     };
-    if (data !== undefined) {
+    if (data != undefined) {
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data)
     }
@@ -34,7 +34,7 @@ export async function getBooks() {
 }
 
 export async function getById(id) {
-    return request('/books' + id);
+    return request('/books/' + id);
 }
 
 
@@ -43,7 +43,7 @@ export async function createBook(book) {
 }
 
 export async function updateBook(id, book) {
-    return request('/books' + id, 'put', book);
+    return request('/books/' + id, 'put', book);
 }
 
 export async function deleteBook(id) {

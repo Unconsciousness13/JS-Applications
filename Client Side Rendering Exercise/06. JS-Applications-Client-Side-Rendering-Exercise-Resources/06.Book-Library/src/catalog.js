@@ -20,7 +20,7 @@ const bookRow = (book, onEdit, onDelete) => html`<tr>
 <td>${book.author}</td>
 <td>
     <button @click=${onEdit}>Edit</button>
-    <button @clock=${onDelete}>Delete</button></td>
+    <button @click=${onDelete}>Delete</button></td>
 </tr>`;
 
 export function showCatalog(ctx) {
