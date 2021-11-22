@@ -20,6 +20,7 @@ span {
     font-weight: 700;
 }
 
+
 /* header  */
 
 header {
@@ -81,6 +82,7 @@ a.active {
     background-color: #6c8b47;
     color: white;
 }
+
 
 /* header end */
 
@@ -210,4 +212,14 @@ img {
 
 .is-invalid {
     border-left: 2px solid red;
+}
+
+#user,
+#guest {
+    display: none;
+}
+
+.error {
+    color: red;
+    font-size: 135%;
 }
