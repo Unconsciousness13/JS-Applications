@@ -29,7 +29,11 @@ const registerTemplate = (onSubmit) => html `<div class="row space-top">
 </form>
 `;
 export function registerPage(ctx) {
-    ctx.render(registerTemplate(onSubmit));
+    update();
+
+    function update(errorMsg) {
+        ctx.render(registerTemplate(onSubmit, errorMsg));
+    }
 
     async function onSubmit(event) {
         event.preventDefault();
@@ -39,15 +43,21 @@ export function registerPage(ctx) {
         const password = formData.get('password').trim();
         const rePass = formData.get('rePass').trim();
 
-        if (email == '' || password == '') {
-            return alert('All fields are required');
 
-        }
-        if (password != rePass) {
-            return alert('Passwords do not match');
-        }
 
-        await register(email, password);
-        ctx.page.redirect('/');
+        try {
+
+            if (email == '' || password == '') {
+                throw new Error('All fields are required');
+
+            }
+            if (password != rePass) {
+                throw new Error('Passwords do not match');
+            }
+            await register(email, password);
+            ctx.page.redirect('/');
+        } catch (err) {
+            update(err.message);
+        }
     }
 }
