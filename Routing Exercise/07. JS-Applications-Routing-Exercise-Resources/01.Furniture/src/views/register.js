@@ -51,7 +51,8 @@ export function registerPage(ctx) {
                     error: new Error('All fields are required'),
                     errors: {
                         email: email == '',
-                        password: password == ''
+                        password: password == '',
+                        rePass: rePass == ''
                     }
                 };
 
@@ -67,6 +68,7 @@ export function registerPage(ctx) {
                 
             }
             await register(email, password);
+            ctx.updateUserNav();
             ctx.page.redirect('/');
         } catch (err) {
             const message = err.message || err.error.message;
