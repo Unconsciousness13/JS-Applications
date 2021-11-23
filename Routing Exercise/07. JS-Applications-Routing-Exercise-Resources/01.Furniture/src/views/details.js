@@ -30,7 +30,7 @@ const itemTemplate = (item, isOwner , onDelete) => html`<div class="col-md-4">
 <p>Price: <span>${item.price}</span></p>
 <p>Material: <span>${item.material}</span></p>
 ${isOwner ? html`<div>
-    <a href=${`/edit/$${item._id}`} class="btn btn-info">Edit</a>
+    <a href=${`/edit/${item._id}`} class="btn btn-info">Edit</a>
     <a @click=${onDelete} href="javascript:void(0)" class="btn btn-red">Delete</a>
 </div>` : null};
 
