@@ -19,24 +19,7 @@
 
         <!-- Navigation -->
         <nav>
-            <a href="#">All Memes</a>
-            <!-- Logged users -->
-            <div class="user">
-                <a href="#">Create Meme</a>
-                <div class="profile">
-                    <span>Welcome, {email}</span>
-                    <a href="#">My Profile</a>
-                    <a href="#">Logout</a>
-                </div>
-            </div>
-            <!-- Guest users -->
-            <div class="guest">
-                <div class="profile">
-                    <a href="#">Login</a>
-                    <a href="#">Register</a>
-                </div>
-                <a class="active" href="#">Home Page</a>
-            </div>
+
         </nav>
 
         <!-- Main Content -->
@@ -44,61 +27,13 @@
         </main>
 
         <!-- Welcome Page ( Only for guest users ) -->
-        <section id="welcome">
-            <div id="welcome-container">
-                <h1>Welcome To Meme Lounge</h1>
-                <img src="/images/welcome-meme.jpg" alt="meme">
-                <h2>Login to see our memes right away!</h2>
-                <div id="button-div">
-                    <a href="#" class="button">Login</a>
-                    <a href="#" class="button">Register</a>
-                </div>
-            </div>
-        </section>
+
 
         <!-- Login Page ( Only for guest users ) -->
-        <section id="login">
-            <form id="login-form">
-                <div class="container">
-                    <h1>Login</h1>
-                    <label for="email">Email</label>
-                    <input id="email" placeholder="Enter Email" name="email" type="text">
-                    <label for="password">Password</label>
-                    <input id="password" type="password" placeholder="Enter Password" name="password">
-                    <input type="submit" class="registerbtn button" value="Login">
-                    <div class="container signin">
-                        <p>Dont have an account?<a href="#">Sign up</a>.</p>
-                    </div>
-                </div>
-            </form>
-        </section>
+
 
         <!-- Register Page ( Only for guest users ) -->
-        <section id="register">
-            <form id="register-form">
-                <div class="container">
-                    <h1>Register</h1>
-                    <label for="username">Username</label>
-                    <input id="username" type="text" placeholder="Enter Username" name="username">
-                    <label for="email">Email</label>
-                    <input id="email" type="text" placeholder="Enter Email" name="email">
-                    <label for="password">Password</label>
-                    <input id="password" type="password" placeholder="Enter Password" name="password">
-                    <label for="repeatPass">Repeat Password</label>
-                    <input id="repeatPass" type="password" placeholder="Repeat Password" name="repeatPass">
-                    <div class="gender">
-                        <input type="radio" name="gender" id="female" value="female">
-                        <label for="female">Female</label>
-                        <input type="radio" name="gender" id="male" value="male" checked>
-                        <label for="male">Male</label>
-                    </div>
-                    <input type="submit" class="registerbtn button" value="Register">
-                    <div class="container signin">
-                        <p>Already have an account?<a href="#">Sign in</a>.</p>
-                    </div>
-                </div>
-            </form>
-        </section>
+
 
         <!-- All Memes Page ( for Guests and Users )-->
         <section id="meme-feed">
