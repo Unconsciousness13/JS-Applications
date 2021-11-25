@@ -1,4 +1,4 @@
-import authservice from '../services/authService.js';
+import authService from '../services/authService.js';
 
 
 export async function jsonRequest(url, method, body, isAuthorized, skipResult) {
