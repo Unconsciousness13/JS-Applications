@@ -7,8 +7,16 @@ async function request(url, options) {
             const error = await response.json();
             throw new Error(error.message);
         }
+
+        if (response == 204) {
+            return response;
+        } else {
+            return response.json();
+
+        }
     } catch (err) {
         alert(err.message);
+        throw err;
     }
 
 }
