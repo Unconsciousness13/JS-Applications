@@ -7,5 +7,5 @@ export function getUserData() {
 }
 
 export function clearUserData() {
-    return sessionStorage.removeItem('userData');
+    sessionStorage.removeItem('userData');
 }

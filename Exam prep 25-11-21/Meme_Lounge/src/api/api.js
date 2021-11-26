@@ -1,4 +1,4 @@
-import { getUserData } from '../util.js';
+import { getUserData, setUserData } from '../util.js';
 
 async function request(url, options) {
 
@@ -42,4 +42,31 @@ function createOptions(method = 'get', data) {
 
 export async function get() {
     return request(url, createOptions())
+}
+
+export async function post(url, data) {
+    return request(url, createOptions('post', data));
+}
+
+export async function put(url, data) {
+    return request(url, createOptions('put', data));
+}
+
+export async function del(url) {
+    return request(url, createOptions('delete'));
+}
+
+export function login(username, password) {
+    const result = await post('/users/login', { username, password });
+
+    const userData = {
+        username: result.username,
+        email: result.email,
+        id: result._id,
+        gender: result.gender,
+        token: result.accessToken
+    }
+    setUserData(userData);
+
+    return result;
 }
