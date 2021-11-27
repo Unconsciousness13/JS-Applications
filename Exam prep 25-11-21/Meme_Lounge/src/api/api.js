@@ -1,4 +1,4 @@
-import { getUserData, setUserData } from '../util.js';
+import { getUserData, setUserData, clearUserData } from '../util.js';
 
 async function request(url, options) {
 
@@ -69,4 +69,24 @@ export function login(username, password) {
     setUserData(userData);
 
     return result;
+}
+
+export async function register(username, email, password, gender) {
+    const result = await post('/users/register', { username, email, password, gender });
+
+    const userData = {
+        username: result.username,
+        email: result.email,
+        id: result._id,
+        gender: result.gender,
+        token: result.accessToken
+    }
+    setUserData(userData);
+
+    return result;
+}
+
+export async function logout() {
+    await get('/users/logout');
+    clearUserData();
 }
