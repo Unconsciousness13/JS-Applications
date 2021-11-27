@@ -1,25 +1,30 @@
 import { getUserData, setUserData, clearUserData } from '../util.js';
 
-async function request(url, options) {
 
+const hostname = 'http://localhost:3030';
+
+async function request(url, options) {
     try {
-        const response = await (fetch(url, options));
+        const response = await fetch(hostname + url, options);
 
         if (response.ok == false) {
             const error = await response.json();
             throw new Error(error.message);
         }
 
-        if (response == 204) {
+        try {
+            return await response.json();
+        } catch (err) {
             return response;
-        } else {
-            return response.json();
         }
+
     } catch (err) {
         alert(err.message);
         throw err;
     }
 }
+
+
 
 function createOptions(method = 'get', data) {
     const options = {
@@ -40,7 +45,7 @@ function createOptions(method = 'get', data) {
     return options;
 }
 
-export async function get() {
+export async function get(url) {
     return request(url, createOptions())
 }
 
@@ -56,8 +61,8 @@ export async function del(url) {
     return request(url, createOptions('delete'));
 }
 
-export function login(username, password) {
-    const result = await post('/users/login', { username, password });
+export async function login(email, password) {
+    const result = await post('/users/login', { email, password });
 
     const userData = {
         username: result.username,
