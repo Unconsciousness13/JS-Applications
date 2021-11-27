@@ -1,8 +1,9 @@
-import { login } from '../api/api.js';
+import { login } from '../api/api.js'
 import { html } from '../lib.js';
+
 const loginTemplate = (onSubmit) => html `
 <section id="login">
-    <form @submit=${onSubmit} id="login-form">
+    <form @submit=${onSubmit}id="login-form">
         <div class="container">
             <h1>Login</h1>
             <label for="email">Email</label>
@@ -18,18 +19,17 @@ const loginTemplate = (onSubmit) => html `
 </section>`;
 
 export function loginPage(ctx) {
-    ctx.render(loginTemplate(onSubmit));
+    ctx.render(loginTemplate(onSubmit))
 
     async function onSubmit(event) {
         event.preventDefault();
-
-        const formData = new FormData(event.target.value);
+        const formData = new FormData(event.target);
 
         const email = formData.get('email');
         const password = formData.get('password');
 
-        await login(email, password);
-        ctx.updateUserNav();
+        await login(email, password)
+        ctx.updateUserNav()
         ctx.page.redirect('/memes');
     }
 }

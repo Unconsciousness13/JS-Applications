@@ -1,52 +1,45 @@
-import { getUserData, setUserData, clearUserData } from '../util.js';
-
+import { getUserData, setUserData, clearUserData } from '../util.js'
 
 const hostname = 'http://localhost:3030';
 
 async function request(url, options) {
     try {
         const response = await fetch(hostname + url, options);
-
         if (response.ok == false) {
-            const error = await response.json();
+            const error = await response.json()
             throw new Error(error.message);
         }
-
-        try {
-            return await response.json();
-        } catch (err) {
+        if (response.status == 204) {
             return response;
+        } else {
+            return response.json();
         }
 
     } catch (err) {
-        alert(err.message);
+        alert(err.message)
         throw err;
     }
 }
-
-
 
 function createOptions(method = 'get', data) {
     const options = {
         method,
         headers: {}
-    };
-
-    if (data !== undefined) {
+    }
+    if (data != undefined) {
         options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data);
     }
-
     const userData = getUserData();
     if (userData) {
         options.headers['X-Authorization'] = userData.token;
     }
 
-    return options;
+    return options
 }
 
 export async function get(url) {
-    return request(url, createOptions())
+    return request(url, createOptions());
 }
 
 export async function post(url, data) {
@@ -75,7 +68,6 @@ export async function login(email, password) {
 
     return result;
 }
-
 export async function register(username, email, password, gender) {
     const result = await post('/users/register', { username, email, password, gender });
 
@@ -93,5 +85,5 @@ export async function register(username, email, password, gender) {
 
 export async function logout() {
     get('/users/logout');
-    clearUserData();
+    clearUserData()
 }
