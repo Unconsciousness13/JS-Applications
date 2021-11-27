@@ -31,7 +31,7 @@ const memeCard = (meme) => html`
 <div class="user-meme">
     <p class="user-meme-title">${meme.title}</p>
     <img class="userProfileImage" alt="meme-img" src=${meme.imageUrl}>
-    <a class="button" href="/details/${meme.id}">Details</a>
+    <a class="button" href="/details/${meme._id}">Details</a>
 </div>`
 
 export async function profilePage(ctx) {

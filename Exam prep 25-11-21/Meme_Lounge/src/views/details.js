@@ -24,7 +24,7 @@ export async function detailsPage(ctx) {
     const isOwner = userData && meme._ownerId == userData.id;
     ctx.render(detailsTemplate(meme, isOwner, onDelete))
     async function onDelete() {
-        const choice = confirm("Are you sure you want to delete this meme FOREVER?")
+        const choice = confirm("Are you sure to delete this meme?")
         if (choice) {
             await deleteById(ctx.params.id)
             ctx.page.redirect('/memes')

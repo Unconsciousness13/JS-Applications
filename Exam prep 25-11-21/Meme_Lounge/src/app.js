@@ -20,9 +20,9 @@ page('/memes', catalogPage);
 page('/login', loginPage);
 page('/register', registerPage);
 page('/create', createPage);
-page('/details/:id', detailsPage)
-page('/edit/:id', editPage)
-page('/profile', profilePage)
+page('/details/:id', detailsPage);
+page('/edit/:id', editPage);
+page('/profile', profilePage);
 
 updateUserNav();
 page.start();
