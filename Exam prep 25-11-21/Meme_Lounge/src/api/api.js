@@ -92,6 +92,6 @@ export async function register(username, email, password, gender) {
 }
 
 export async function logout() {
-    await get('/users/logout');
+    get('/users/logout');
     clearUserData();
 }

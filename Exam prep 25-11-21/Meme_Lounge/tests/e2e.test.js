@@ -1,4 +1,3 @@
-
 const { chromium } = require('playwright-chromium');
 const { expect } = require('chai');
 
@@ -33,14 +32,14 @@ let browser;
 let context;
 let page;
 
-describe('E2E tests', function () {
+describe('E2E tests', function() {
     if (DEBUG) {
         this.timeout(120000);
     } else {
         this.timeout(6000);
     }
 
-    before(async () => {
+    before(async() => {
         if (DEBUG) {
             browser = await chromium.launch({ headless: false, slowMo: 500 });
         } else {
@@ -48,11 +47,11 @@ describe('E2E tests', function () {
         }
     });
 
-    after(async () => {
+    after(async() => {
         await browser.close();
     });
 
-    beforeEach(async () => {
+    beforeEach(async() => {
         context = await browser.newContext();
 
         await context.route('**' + endpoints.memes, route => route.fulfill(json(mockData)));
@@ -70,12 +69,12 @@ describe('E2E tests', function () {
         page = await context.newPage();
     });
 
-    afterEach(async () => {
+    afterEach(async() => {
         await page.close();
         await context.close();
     });
     describe('Authentication [ 20 Points ]', () => {
-        it('register does not work with empty fields [ 5 Points ]', async () => {
+        it('register does not work with empty fields [ 5 Points ]', async() => {
             const endpoint = '**' + endpoints.register;
             let called = false;
             page.route(endpoint, route => called = true);
@@ -93,7 +92,7 @@ describe('E2E tests', function () {
             expect(called).to.be.false;
         });
 
-        it('register makes correct API call [ 5 Points ]', async () => {
+        it('register makes correct API call [ 5 Points ]', async() => {
             const endpoint = '**' + endpoints.register;
             const username = 'Ivan';
             const email = 'ivan@mail.bg';
@@ -127,7 +126,7 @@ describe('E2E tests', function () {
             expect(postData.password).to.equal(password);
         });
 
-        it('login makes correct API call [ 5 Points ]', async () => {
+        it('login makes correct API call [ 5 Points ]', async() => {
             const endpoint = '**' + endpoints.login;
             const email = 'ivan@mail.bg';
             const password = '345321';
@@ -155,7 +154,7 @@ describe('E2E tests', function () {
             expect(postData.password).to.equal(password);
         });
 
-        it('logout makes correct API call [ 5 Points ]', async () => {
+        it('logout makes correct API call [ 5 Points ]', async() => {
             const loginEndpoint = '**' + endpoints.login;
             const email = 'ivan@mail.bg';
             const password = '345321';
@@ -196,7 +195,7 @@ describe('E2E tests', function () {
         const email = 'ivan@mail.bg';
         const password = '345321';
 
-        it('logged user should see correct navigation [ 2.5 Points ]', async () => {
+        it('logged user should see correct navigation [ 2.5 Points ]', async() => {
             // Login user
             const endpoint = '**' + endpoints.login;
 
@@ -231,7 +230,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('guest user should see correct navigation [ 2.5 Points ]', async () => {
+        it('guest user should see correct navigation [ 2.5 Points ]', async() => {
             await page.goto(host);
 
             await page.waitForTimeout(300);
@@ -248,7 +247,7 @@ describe('E2E tests', function () {
     });
 
     describe('Catalog [ 25 Points ]', () => {
-        it('loads static home page [ 5 Points ]', async () => {
+        it('loads static home page [ 5 Points ]', async() => {
             await page.goto(host);
 
             await page.waitForSelector('text=Welcome to Meme Lounge');
@@ -259,7 +258,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('#button-div >> text=Register')).to.be.true;
         });
 
-        it('show most recent memes [ 10 Points ]', async () => {
+        it('show most recent memes [ 10 Points ]', async() => {
             await page.goto(host);
             await page.click('text=All Memes');
             await page.waitForTimeout(300);
@@ -276,7 +275,7 @@ describe('E2E tests', function () {
             expect(titles[4]).to.contains('test 5');
         });
 
-        it('show meme details [ 5 Points ]', async () => {
+        it('show meme details [ 5 Points ]', async() => {
 
             await page.goto(host);
             await page.click('text=All Memes');
@@ -302,7 +301,7 @@ describe('E2E tests', function () {
             expect(img).to.contains(mockData[3].imageUrl);
         });
 
-        it('guest does NOT see delete button [ 5 Points ]', async () => {
+        it('guest does NOT see delete button [ 5 Points ]', async() => {
 
             await page.goto(host);
             await page.click('text=All Memes');
@@ -324,7 +323,7 @@ describe('E2E tests', function () {
         const password = '345321';
 
         // Login user
-        beforeEach(async () => {
+        beforeEach(async() => {
             const loginEndpoint = '**' + endpoints.login;
 
             page.route(loginEndpoint, route => route.fulfill(json({ _id: '0001', email, accessToken: 'AAAA' })));
@@ -344,7 +343,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('create does NOT work with empty fields [ 5 Points ]', async () => {
+        it('create does NOT work with empty fields [ 5 Points ]', async() => {
             const endpoint = '**' + endpoints.create;
             let called = false;
             await page.waitForTimeout(300);
@@ -361,7 +360,7 @@ describe('E2E tests', function () {
             expect(called).to.be.false;
         });
 
-        it('create makes correct API call for logged in user [ 10 Points ]', async () => {
+        it('create makes correct API call for logged in user [ 10 Points ]', async() => {
             const endpoint = '**' + endpoints.create;
             const mock = mockData[5];
 
@@ -390,7 +389,7 @@ describe('E2E tests', function () {
             expect(postData.imageUrl).to.equal(mock.imageUrl);
         });
 
-        it('non-author does NOT see delete and edit buttons [ 2.5 Points ]', async () => {
+        it('non-author does NOT see delete and edit buttons [ 2.5 Points ]', async() => {
             const mock = Object.assign({}, mockData[4], { _ownerId: '0002' }); // Replace mock with non-owned object
 
             await page.goto(host);
@@ -407,7 +406,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('text="Edit"')).to.be.false;
         });
 
-        it('author sees delete and edit buttons [ 2.5 Points ]', async () => {
+        it('author sees delete and edit buttons [ 2.5 Points ]', async() => {
             const mock = mockData[5];
             await page.waitForTimeout(300);
 
@@ -427,7 +426,7 @@ describe('E2E tests', function () {
             expect(await page.isEnabled('text="Edit"')).to.be.true;
         });
 
-        it('delete makes correct API call for logged in user [ 5 Points ]', async () => {
+        it('delete makes correct API call for logged in user [ 5 Points ]', async() => {
             const mock = mockData[5];
             await page.waitForTimeout(300);
 
@@ -449,7 +448,7 @@ describe('E2E tests', function () {
             expect(request.method()).to.equal('DELETE');
         });
 
-        it('edit does NOT work with empty fields [ 5 Points ]', async () => {
+        it('edit does NOT work with empty fields [ 5 Points ]', async() => {
             const endpoint = endpoints.details;
             await page.waitForTimeout(300);
 
@@ -479,7 +478,7 @@ describe('E2E tests', function () {
             expect(called).to.be.false;
         });
 
-        it('edit should populate form with correct data [ 5 Points ]', async () => {
+        it('edit should populate form with correct data [ 5 Points ]', async() => {
             const endpoint = endpoints.details;
 
             await page.waitForTimeout(300);
@@ -506,7 +505,7 @@ describe('E2E tests', function () {
             expect(textArea).to.contains(mockData[5].description);
         });
 
-        it('edit makes correct API call for logged in user [ 5 Points ]', async () => {
+        it('edit makes correct API call for logged in user [ 5 Points ]', async() => {
             const endpoint = endpoints.details;
             await page.waitForTimeout(300);
 
@@ -543,14 +542,14 @@ describe('E2E tests', function () {
 
     });
 
-    describe('User Profile Page [ 10 Points ]', async () => {
+    describe('User Profile Page [ 10 Points ]', async() => {
         const email = 'merry@mail.bg';
         const username = 'Merry';
         const password = '123456';
         const loginEndpoint = '**' + endpoints.login;
 
         // Login user
-        beforeEach(async () => {
+        beforeEach(async() => {
             page.route(loginEndpoint, route => route.fulfill(json({ _id: '0002', gender: 'female', username, email, accessToken: 'AAAA' })));
 
             await page.goto(host);
@@ -571,7 +570,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('check profile page information - with 0 memes [ 5 Points ]', async () => {
+        it('check profile page information - with 0 memes [ 5 Points ]', async() => {
             await page.route('**' + endpoints.profile, route => route.fulfill(json([])));
             await page.waitForTimeout(300);
             await page.click('text="My Profile"');
@@ -588,7 +587,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('check profile page for "No memes in database." - with 0 memes [ 2.5 Points ]', async () => {
+        it('check profile page for "No memes in database." - with 0 memes [ 2.5 Points ]', async() => {
             await page.waitForTimeout(300);
 
             await page.route('**' + endpoints.profile, route => route.fulfill(json([])));
@@ -603,7 +602,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('check profile page information - with 2 memes [ 2.5 Points ]', async () => {
+        it('check profile page information - with 2 memes [ 2.5 Points ]', async() => {
             await page.route('**' + endpoints.profile, route => route.fulfill(json([mockData[0], mockData[1]])));
 
             await page.waitForTimeout(300);
@@ -623,7 +622,7 @@ describe('E2E tests', function () {
     });
 
     describe('BONUS: Notifications [ 5 Points ]', () => {
-        it('Login notification with invalid data', async () => {
+        it('Login notification with invalid data', async() => {
             const endpoint = '**' + endpoints.login;
             let called = false;
             page.route(endpoint, route => called = true);
@@ -644,7 +643,7 @@ describe('E2E tests', function () {
             expect(notification).to.be.true;
 
         });
-        it('Register notification with invalid data', async () => {
+        it('Register notification with invalid data', async() => {
             const endpoint = '**' + endpoints.register;
             let called = false;
             page.route(endpoint, route => called = true);
@@ -664,7 +663,7 @@ describe('E2E tests', function () {
             const notification = await page.isVisible('#errorBox');
             expect(notification).to.be.true;
         });
-        it('Create notification with invalid data', async () => {
+        it('Create notification with invalid data', async() => {
             // Login user
             const email = 'peter@abv.bg';
             const password = '123456';
@@ -706,7 +705,7 @@ describe('E2E tests', function () {
             const notification = await page.isVisible('#errorBox');
             expect(notification).to.be.true;
         });
-        it('Edit notification with invalid data', async () => {
+        it('Edit notification with invalid data', async() => {
             // Login user
             const email = 'peter@abv.bg';
             const password = '123456';
