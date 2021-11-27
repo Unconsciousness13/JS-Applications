@@ -20,12 +20,6 @@ const profileTemplate = (memes, user) => html `
     </div>
 </section>`
 
-/*<section id="meme-feed">
-    <h1>All Memes</h1>
-    <div id="memes">
-        
-    </div>
-</section>*/
 
 const memeCard = (meme) => html`
 <div class="user-meme">
