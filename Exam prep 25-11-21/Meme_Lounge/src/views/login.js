@@ -1,5 +1,6 @@
 import { login } from '../api/api.js'
 import { html } from '../lib.js';
+import { notify } from '../notify.js';
 
 const loginTemplate = (onSubmit) => html `
 <section id="login">
@@ -25,8 +26,12 @@ export function loginPage(ctx) {
         event.preventDefault();
         const formData = new FormData(event.target);
 
-        const email = formData.get('email');
-        const password = formData.get('password');
+        const email = formData.get('email').trim();
+        const password = formData.get('password').trim();
+
+        if (email == '' || password == '') {
+            return notify('All fields are required');
+        }
 
         await login(email, password)
         ctx.updateUserNav()
