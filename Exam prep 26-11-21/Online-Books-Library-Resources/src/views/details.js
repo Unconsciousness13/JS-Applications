@@ -1,9 +1,9 @@
 import { html } from '../lib.js';
-import { deleteBook, getBookById } from '../api/data.js';
+import { deleteBook, getBookById, getLikesByBookId, getMyLikeByBookId, likeBook } from '../api/data.js';
 import { getUserData } from '../util.js'
 
 
-const detailsTemplate = (book, isOwner, onDelete) => html `
+const detailsTemplate = (book, isOwner, onDelete, likes, showLikeButton, onLike) => html `
 <section id="details-page" class="details">
     <div class="book-information">
         <h3>${book.title}</h3>
@@ -11,6 +11,11 @@ const detailsTemplate = (book, isOwner, onDelete) => html `
         <p class="img"><img src=${book.imageUrl}></p>
         <div class="actions">
             ${bookControlsTemplate(book, isOwner , onDelete)}
+            ${likeControlsTemplate(showLikeButton, onLike)}
+            <div class="likes">
+                <img class="hearts" src="/images/heart.png">
+                <span id="total-likes">Likes: ${likes}</span>
+            </div>
         </div>
     </div>
     <div class="book-description">
@@ -29,14 +34,28 @@ const bookControlsTemplate = (book, isOwner, onDelete) => {
     }
 };
 
+const likeControlsTemplate = (showLikeButton, onLike) => {
+    if (showLikeButton) {
+        return html `<a @click=${onLike} class="button" href="javascript:void(0)">Like</a>`;
+    } else {
+        return null;
+    }
+}
 
 export async function detailsPage(ctx) {
-    const book = await getBookById(ctx.params.id);
-
     const userData = getUserData();
-    const isOwner = userData && userData.id == book._ownerId;
 
-    ctx.render(detailsTemplate(book, isOwner, onDelete));
+    const [book, likes, hasLike] = await Promise.all([
+        getBookById(ctx.params.id),
+        getLikesByBookId(ctx.params.id),
+        userData ? getMyLikeByBookId(ctx.params.id, userData.id) : 0
+    ]);
+
+
+    const isOwner = userData && userData.id == book._ownerId;
+    const showLikeButton = userData != null && isOwner == false && hasLike == false;
+
+    ctx.render(detailsTemplate(book, isOwner, onDelete, likes, showLikeButton, onLike));
 
     async function onDelete() {
         const choise = confirm(`Are you sure you want to delete ${book.title}`);
@@ -46,18 +65,8 @@ export async function detailsPage(ctx) {
             ctx.page.redirect('/');
         }
     }
+    async function onLike() {
+        await likeBook(ctx.params.id);
+        ctx.page.redirect('/details/' + ctx.params.id);
+    }
 }
-
-
-/*  
-<!-- Bonus -->
-            <!-- Like button ( Only for logged-in users, which is not creators of the current book ) -->
-            <a class="button" href="#">Like</a>
-
-            <!-- ( for Guests and Users )  -->
-            <div class="likes">
-                <img class="hearts" src="/images/heart.png">
-                <span id="total-likes">Likes: 0</span>
-            </div>
-            <!-- Bonus -->
-*/
