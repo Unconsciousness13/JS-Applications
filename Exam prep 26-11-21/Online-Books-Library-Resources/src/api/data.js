@@ -18,7 +18,7 @@ export async function getBookById(id) {
 }
 
 export async function createBook(book) {
-    return api.post('/data/books/', book);
+    return api.post('/data/books', book);
 }
 
 export async function editBook(id, book) {

@@ -319,7 +319,7 @@ describe('E2E tests', function() {
             expect(post.isCalled).to.be.false;
         });
 
-        it.only('create makes correct API call for logged in user [ 10 Points ]', async() => {
+        it('create makes correct API call for logged in user [ 10 Points ]', async() => {
             const data = mockData.catalog[0];
             const { post } = await createHandler(endpoints.create, { post: data });
 
