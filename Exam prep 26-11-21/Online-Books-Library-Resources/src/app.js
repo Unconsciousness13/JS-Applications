@@ -5,6 +5,7 @@ import { getUserData } from '../src/util.js'
 import { logout } from './api/api.js';
 import { registerPage } from './views/register.js';
 import { createPage } from './views/create.js';
+import { detailsPage } from './views/details.js';
 
 const root = document.getElementById('site-content');
 document.getElementById('logoutBtn').addEventListener('click', onLogout);
@@ -15,6 +16,7 @@ page('/', homePage);
 page('/login', loginPage);
 page('/register', registerPage);
 page('/create', createPage);
+page('/details/:id', detailsPage);
 
 updateUserNav();
 page.start();

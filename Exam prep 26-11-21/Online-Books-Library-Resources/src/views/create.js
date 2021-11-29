@@ -57,7 +57,7 @@ export function createPage(ctx) {
         const imageUrl = formData.get('imageUrl').trim();
         const type = formData.get('type').trim();
 
-        if (title == '' || description == '' || imageUrl == '') {
+        if (title == '' || description == '' || imageUrl == '' || type == '') {
             return alert('Please fill all fields');
         }
         await createBook({
