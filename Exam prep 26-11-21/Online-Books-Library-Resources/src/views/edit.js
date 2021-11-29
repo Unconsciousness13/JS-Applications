@@ -1,34 +1,34 @@
+import { editBook, getBookById } from '../api/data.js';
 import { html } from '../lib.js';
-import { createBook } from '../api/data.js'
 
 
-const createTemplate = (onSubmit) => html `
-<section  id="create-page" class="create">
-    <form @submit=${onSubmit} id="create-form" action="" method="">
+const editTemplate = (book, onSubmit) => html `
+<section id="edit-page" class="edit">
+    <form @submit=${onSubmit} id="edit-form" action="#" method="">
         <fieldset>
-            <legend>Add new Book</legend>
+            <legend>Edit my Book</legend>
             <p class="field">
                 <label for="title">Title</label>
                 <span class="input">
-                    <input type="text" name="title" id="title" placeholder="Title">
+                    <input type="text" name="title" id="title" .value=${book.title}>
                 </span>
             </p>
             <p class="field">
                 <label for="description">Description</label>
                 <span class="input">
-                    <textarea name="description" id="description" placeholder="Description"></textarea>
+                    <textarea name="description" id="description" .value=${book.description}></textarea>
                 </span>
             </p>
             <p class="field">
                 <label for="image">Image</label>
                 <span class="input">
-                    <input type="text" name="imageUrl" id="image" placeholder="Image">
+                    <input type="text" name="imageUrl" id="image" .value=${book.imageUrl}>
                 </span>
             </p>
             <p class="field">
                 <label for="type">Type</label>
                 <span class="input">
-                    <select id="type" name="type">
+                    <select id="type" name="type" .value=${book.type}>
                         <option value="Fiction">Fiction</option>
                         <option value="Romance">Romance</option>
                         <option value="Mistery">Mistery</option>
@@ -37,35 +37,33 @@ const createTemplate = (onSubmit) => html `
                     </select>
                 </span>
             </p>
-            <input class="button submit" type="submit" value="Add Book">
+            <input class="button submit" type="submit" value="Save">
         </fieldset>
     </form>
-</section>`;
+</section>`
 
-
-export function createPage(ctx) {
-    ctx.render(createTemplate(onSubmit));
-
+export async function editPage(ctx) {
+    const book = await getBookById(ctx.params.id)
+    ctx.render(editTemplate(book, onSubmit))
 
     async function onSubmit(event) {
         event.preventDefault();
         const formData = new FormData(event.target);
 
-        const title = formData.get('title').trim();
-        const description = formData.get('description').trim();
-        const imageUrl = formData.get('imageUrl').trim();
-        const type = formData.get('type').trim();
+        const title = formData.get('title')
+        const description = formData.get('description');
+        const imageUrl = formData.get('imageUrl');
+        const type = formData.get('type')
 
         if (title == '' || description == '' || imageUrl == '' || type == '') {
-            return alert('Please fill all fields');
+            return alert('Please fill all fields.');
         }
-        await createBook({
+        await editBook(ctx.params.id, {
             title,
             description,
             imageUrl,
             type
-        });
-        ctx.page.redirect('/');
-
+        })
+        ctx.page.redirect('/details/' + ctx.params.id)
     }
 }

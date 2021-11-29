@@ -1,5 +1,5 @@
 import { html } from '../lib.js';
-import { deleteBook, getBookId } from '../api/data.js';
+import { deleteBook, getBookById } from '../api/data.js';
 import { getUserData } from '../util.js'
 
 
@@ -31,7 +31,7 @@ const bookControlsTemplate = (book, isOwner, onDelete) => {
 
 
 export async function detailsPage(ctx) {
-    const book = await getBookId(ctx.params.id);
+    const book = await getBookById(ctx.params.id);
 
     const userData = getUserData();
     const isOwner = userData && userData.id == book._ownerId;

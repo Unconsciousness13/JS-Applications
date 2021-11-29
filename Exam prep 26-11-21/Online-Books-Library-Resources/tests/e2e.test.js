@@ -25,24 +25,24 @@ let browser;
 let context;
 let page;
 
-describe('E2E tests', function () {
+describe('E2E tests', function() {
     // Setup
     this.timeout(DEBUG ? 120000 : timeout);
-    before(async () => browser = await chromium.launch(DEBUG ? { headless: false, slowMo } : {}));
-    after(async () => await browser.close());
-    beforeEach(async () => {
+    before(async() => browser = await chromium.launch(DEBUG ? { headless: false, slowMo } : {}));
+    after(async() => await browser.close());
+    beforeEach(async() => {
         context = await browser.newContext();
         setupContext(context);
         page = await context.newPage();
     });
-    afterEach(async () => {
+    afterEach(async() => {
         await page.close();
         await context.close();
     });
 
     // Test proper
     describe('Authentication [ 20 Points ]', () => {
-        it('register does not work with empty fields [ 5 Points ]', async () => {
+        it('register does not work with empty fields [ 5 Points ]', async() => {
             const { post } = await createHandler(endpoints.register, { post: {} });
 
             await page.goto(host);
@@ -58,7 +58,7 @@ describe('E2E tests', function () {
             expect(post.isCalled).to.be.false;
         });
 
-        it('register makes correct API call [ 5 Points ]', async () => {
+        it('register makes correct API call [ 5 Points ]', async() => {
             const data = mockData.users[0];
             const { post } = await createHandler(endpoints.register, { post: data });
 
@@ -84,7 +84,7 @@ describe('E2E tests', function () {
             expect(postData.password).to.equal(data.password);
         });
 
-        it('login makes correct API call [ 5 Points ]', async () => {
+        it('login makes correct API call [ 5 Points ]', async() => {
             const data = mockData.users[0];
             const { post } = await createHandler(endpoints.login, { post: data });
 
@@ -108,7 +108,7 @@ describe('E2E tests', function () {
             expect(postData.password).to.equal(data.password);
         });
 
-        it('logout makes correct API call [ 5 Points ]', async () => {
+        it('logout makes correct API call [ 5 Points ]', async() => {
             const data = mockData.users[0];
             const { post: loginPost } = await createHandler(endpoints.login, { post: data });
             const { get: logoutGet } = await createHandler(endpoints.logout, { get: { data: '', options: { json: false, status: 204 } } });
@@ -141,7 +141,7 @@ describe('E2E tests', function () {
     });
 
     describe('Navigation bar [ 5 Points ]', () => {
-        it('guest user should see correct navigation [ 2 Points ]', async () => {
+        it('guest user should see correct navigation [ 2 Points ]', async() => {
             await page.goto(host);
             await page.waitForTimeout(interval);
 
@@ -155,7 +155,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('nav >> text=Welcome')).to.be.false;
         });
 
-        it('logged user should see correct navigation [ 2 Points ]', async () => {
+        it('logged user should see correct navigation [ 2 Points ]', async() => {
             // Login user
             const data = mockData.users[0];
             await page.goto(host);
@@ -182,7 +182,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('nav >> text=Register')).to.be.false;
         });
 
-        it('user should see correct navigation after click on Logout button [ 1 Points ]', async () => {
+        it('user should see correct navigation after click on Logout button [ 1 Points ]', async() => {
             // Login user
             const data = mockData.users[0];
             await page.goto(host);
@@ -223,7 +223,7 @@ describe('E2E tests', function () {
     });
 
     describe('Catalog [ 20 Points ]', () => {
-        it('show empty catalog [ 2.5 Points ]', async () => {
+        it('show empty catalog [ 2.5 Points ]', async() => {
             await createHandler(endpoints.catalog, { get: [] });
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -236,7 +236,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('text=No books in database!')).to.be.true;
         });
 
-        it('show catalog [ 7.5 Points ]', async () => {
+        it('show catalog [ 7.5 Points ]', async() => {
             await page.goto(host);
             await page.waitForTimeout(interval);
 
@@ -254,7 +254,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('text=No books in database!')).to.be.false;
         });
 
-        it('show details [ 5 Points ]', async () => {
+        it('show details [ 5 Points ]', async() => {
             const data = mockData.catalog[2];
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -272,7 +272,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('guest does NOT see edit/delete buttons [ 5 Points ]', async () => {
+        it('guest does NOT see edit/delete buttons [ 5 Points ]', async() => {
             const data = mockData.catalog[0];
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -293,7 +293,7 @@ describe('E2E tests', function () {
     describe('CRUD [ 45 Points ]', () => {
 
         // Login user
-        beforeEach(async () => {
+        beforeEach(async() => {
             const data = mockData.users[0];
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -306,7 +306,7 @@ describe('E2E tests', function () {
             await page.waitForTimeout(interval);
         });
 
-        it('create does NOT work with empty fields [ 5 Points ]', async () => {
+        it('create does NOT work with empty fields [ 5 Points ]', async() => {
             const { post } = await createHandler(endpoints.create, { post: '' });
 
             await page.click('text=Add Book');
@@ -319,7 +319,7 @@ describe('E2E tests', function () {
             expect(post.isCalled).to.be.false;
         });
 
-        it('create makes correct API call for logged in user [ 10 Points ]', async () => {
+        it.only('create makes correct API call for logged in user [ 10 Points ]', async() => {
             const data = mockData.catalog[0];
             const { post } = await createHandler(endpoints.create, { post: data });
 
@@ -345,7 +345,7 @@ describe('E2E tests', function () {
             expect(postData.imageUrl).to.equal(data.imageUrl);
         });
 
-        it('non-author does NOT see delete and edit buttons [ 5 Points ]', async () => {
+        it('non-author does NOT see delete and edit buttons [ 5 Points ]', async() => {
             const data = mockData.catalog[2];
             await page.click('nav >> text=Dashboard');
             await page.waitForTimeout(interval);
@@ -360,7 +360,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('author sees delete and edit buttons [ 5 Points ]', async () => {
+        it('author sees delete and edit buttons [ 5 Points ]', async() => {
             const data = mockData.catalog[1];
             await page.click('nav >> text=Dashboard');
             await page.waitForTimeout(interval);
@@ -373,7 +373,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('text="Edit"')).to.be.true;
         });
 
-        it('edit should populate form with correct data [ 5 Points ]', async () => {
+        it('edit should populate form with correct data [ 5 Points ]', async() => {
             const data = mockData.catalog[0];
             await createHandler(endpoints.details(data._id), { get: data });
 
@@ -401,7 +401,7 @@ describe('E2E tests', function () {
             expect(formData.description).to.equal(data.description);
         });
 
-        it('edit does NOT work with empty fields [ 5 Points ]', async () => {
+        it('edit does NOT work with empty fields [ 5 Points ]', async() => {
             const data = mockData.catalog[0];
             const { put } = await createHandler(endpoints.details(data._id), { get: data, put: '' });
 
@@ -426,7 +426,7 @@ describe('E2E tests', function () {
             expect(put.isCalled).to.be.false;
         });
 
-        it('edit makes correct API call for logged in user [ 5 Points ]', async () => {
+        it('edit makes correct API call for logged in user [ 5 Points ]', async() => {
             const data = mockData.catalog[0];
             const { put } = await createHandler(endpoints.details(data._id), { get: data, put: '' });
 
@@ -459,7 +459,7 @@ describe('E2E tests', function () {
             expect(postData.description).to.contains(data.description + 'edit');
         });
 
-        it('delete makes correct API call for logged in user [ 5 Points ]', async () => {
+        it('delete makes correct API call for logged in user [ 5 Points ]', async() => {
             const data = mockData.catalog[0];
             const { delete: del } = await createHandler(endpoints.details(data._id), { get: data, delete: '' });
 
@@ -481,9 +481,9 @@ describe('E2E tests', function () {
         });
     });
 
-    describe('My Books Page [ 10 Points ]', async () => {
+    describe('My Books Page [ 10 Points ]', async() => {
         // Login user
-        beforeEach(async () => {
+        beforeEach(async() => {
             const data = mockData.users[0];
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -496,7 +496,7 @@ describe('E2E tests', function () {
             await page.waitForTimeout(interval);
         });
 
-        it('the logged-in user should be able to see his/her own books (test with 2 books) [ 2 Points ]', async () => {
+        it('the logged-in user should be able to see his/her own books (test with 2 books) [ 2 Points ]', async() => {
             await page.goto(host);
             await page.waitForTimeout(interval);
             await page.click('text=My Books');
@@ -507,7 +507,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('text=No books in database!')).to.be.false;
         });
 
-        it('the logged-in user should be able to see "No books in database!" (test with 0 books) [ 2 Points ]', async () => {
+        it('the logged-in user should be able to see "No books in database!" (test with 0 books) [ 2 Points ]', async() => {
             await createHandler(endpoints.profile('0001'), { get: [] });
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -519,7 +519,7 @@ describe('E2E tests', function () {
             expect(await page.isVisible('text=No books in database!')).to.be.true;
         });
 
-        it('the logged-in user should be able to view his/her own books - detailed information [ 4 Points ]', async () => {
+        it('the logged-in user should be able to view his/her own books - detailed information [ 4 Points ]', async() => {
             const mock = mockData.catalog.slice(2);
             await createHandler(endpoints.profile('0001'), { get: mock });
             await page.goto(host);
@@ -545,7 +545,7 @@ describe('E2E tests', function () {
             expect(thirdImg).to.contains(mock[2].imageUrl);
         });
 
-        it('the logged-in user should be redirected to the Details page after click on the button "Details" [ 2 Points ]', async () => {
+        it('the logged-in user should be redirected to the Details page after click on the button "Details" [ 2 Points ]', async() => {
             const data = mockData.catalog[0];
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -562,9 +562,9 @@ describe('E2E tests', function () {
 
     });
 
-    describe('BONUS : Like functionality  [ 10 Points ]', async () => {
+    describe('BONUS : Like functionality  [ 10 Points ]', async() => {
 
-        it('Like button is not visible for guest users [ 1 Points ]', async () => {
+        it('Like button is not visible for guest users [ 1 Points ]', async() => {
             const data = mockData.catalog[0];
             await page.goto(host);
             await page.waitForTimeout(interval);
@@ -580,7 +580,7 @@ describe('E2E tests', function () {
             expect(likes[0]).to.contains('Likes: 6');
         });
 
-        it('Like button is visible for the non-creator user [ 2 Points ]', async () => {
+        it('Like button is visible for the non-creator user [ 2 Points ]', async() => {
             // Login user
             const user = mockData.users[0];
             const data = mockData.catalog[2];
@@ -604,7 +604,7 @@ describe('E2E tests', function () {
             expect(likes[0]).to.contains('Likes: 7');
         });
 
-        it('Like button is not visible for the creator [ 2 Points ]', async () => {
+        it('Like button is not visible for the creator [ 2 Points ]', async() => {
             // Login user
             const user = mockData.users[0];
             const data = mockData.catalog[0];
@@ -627,7 +627,7 @@ describe('E2E tests', function () {
             expect(likes[0]).to.contains('Likes: 6');
         });
 
-        it('Like button should be hidden(not visible) after а click on it [ 2 Points ]', async () => {
+        it('Like button should be hidden(not visible) after а click on it [ 2 Points ]', async() => {
             // Login user
             const { post } = await createHandler(endpoints.like, { post: mockData.likes[2] });
             const user = mockData.users[0];
@@ -670,7 +670,7 @@ describe('E2E tests', function () {
 
         });
 
-        it('Like button should increase total likes by 1 after a click on it [ 3 Points ]', async () => {
+        it('Like button should increase total likes by 1 after a click on it [ 3 Points ]', async() => {
             // Login user
             const { post } = await createHandler(endpoints.like, { post: mockData.likes[2] });
             const user = mockData.users[0];

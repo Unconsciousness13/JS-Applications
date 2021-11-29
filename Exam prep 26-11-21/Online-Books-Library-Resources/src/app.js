@@ -6,6 +6,8 @@ import { logout } from './api/api.js';
 import { registerPage } from './views/register.js';
 import { createPage } from './views/create.js';
 import { detailsPage } from './views/details.js';
+import { editPage } from './views/edit.js';
+import { myBooksPage } from './views/myBooks.js';
 
 const root = document.getElementById('site-content');
 document.getElementById('logoutBtn').addEventListener('click', onLogout);
@@ -17,6 +19,8 @@ page('/login', loginPage);
 page('/register', registerPage);
 page('/create', createPage);
 page('/details/:id', detailsPage);
+page('/edit/:id', editPage);
+page('/myBooks', myBooksPage);
 
 updateUserNav();
 page.start();

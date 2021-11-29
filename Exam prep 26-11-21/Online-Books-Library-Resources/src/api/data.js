@@ -13,7 +13,7 @@ export async function getMyBooks(userId) {
     return api.get(`/data/books?where=_ownerId%3D%22${userId}%22&sortBy=_createdOn%20desc`);
 }
 
-export async function getBookId(id) {
+export async function getBookById(id) {
     return api.get('/data/books/' + id);
 }
 
