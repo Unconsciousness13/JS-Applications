@@ -43,12 +43,12 @@ export function registerPage(ctx) {
         const password = formData.get('password').trim();
         const repeatPass = formData.get('confirm-pass').trim();
 
-        if (email == '' || password == '') {
+        if (email == '' || password == '' || repeatPass == '') {
             return alert('Please fill bouth fields');
         }
 
         if (password != repeatPass) {
-            return alert('password must match');
+            return alert('Password must match');
         }
         await register(email, password);
         ctx.updateUserNav()
