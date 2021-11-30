@@ -1,6 +1,7 @@
 import { html } from '../lib.js';
 import { getCarById } from '../api/data.js';
 import { getUserData } from '../util.js'
+// import { deleteById } from '../util.js'
 
 
 const detailsTemplate = (car, isOwner, onDelete) => html `
