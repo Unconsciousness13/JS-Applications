@@ -6,8 +6,8 @@ import { logout } from './api/api.js';
 import { registerPage } from './views/register.js';
 import { createPage } from './views/create.js';
 import { detailsPage } from './views/details.js';
-// import { editPage } from './views/edit.js';
-// import { myBooksPage } from './views/myBooks.js';
+import { editPage } from './views/edit.js';
+import { myCarsPage } from './views/my-listing.js';
 import { allListingPage } from './views/all-listing.js';
 
 const root = document.getElementById('site-content');
@@ -20,11 +20,11 @@ page('/login', loginPage);
 page('/register', registerPage);
 page('/create', createPage);
 page('/details/:id', detailsPage);
-// page('/edit/:id', editPage);
-// page('/myBooks', myBooksPage);
+page('/edit/:id', editPage);
+page('/my-listing', myCarsPage);
 page('/all-listing', allListingPage);
 
-// updateUserNav();
+updateUserNav();
 page.start();
 
 function decorateContext(ctx, next) {

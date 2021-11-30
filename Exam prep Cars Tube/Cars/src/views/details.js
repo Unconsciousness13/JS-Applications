@@ -1,7 +1,6 @@
 import { html } from '../lib.js';
-import { getCarById } from '../api/data.js';
+import { deleteCar, getCarById } from '../api/data.js';
 import { getUserData } from '../util.js'
-// import { deleteById } from '../util.js'
 
 
 const detailsTemplate = (car, isOwner, onDelete) => html `
@@ -34,7 +33,7 @@ export async function detailsPage(ctx) {
     async function onDelete() {
         const choice = confirm("Are you sure to delete this car?")
         if (choice) {
-            await deleteById(ctx.params.id)
+            await deleteCar(ctx.params.id)
             ctx.page.redirect('/all-listing')
         }
     }
