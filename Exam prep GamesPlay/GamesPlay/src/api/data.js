@@ -26,3 +26,11 @@ export async function editGame(id, game) {
 export async function deleteGame(id) {
     return api.del('/data/games/' + id);
 }
+
+export async function getAllCommentsForASpecificGame(gameId) {
+    return api.get(`/data/comments?where=gameId%3D%22${gameId}%22`)
+}
+
+export async function createComment(body) {
+    return api.post('/data/comments', body);
+}
