@@ -19,7 +19,7 @@ const carPreview = (car) => html`
     <div class="preview">
         <img src=${car.imageUrl}>
     </div>
-    <h2>${car.model}</h2>
+    <h2>${car.brand} ${car.model}</h2>
     <div class="info">
         <div class="data-info">
             <h3>Year: ${car.year}</h3>

@@ -44,9 +44,9 @@ export async function editPage(ctx) {
         const brand = formData.get('brand').trim();
         const model = formData.get('model').trim();
         const description = formData.get('description').trim();
-        const year = formData.get('year').trim();
+        const year = Number(formData.get('year').trim());
         const imageUrl = formData.get('imageUrl').trim();
-        const price = formData.get('price').trim();
+        const price = Number(formData.get('price').trim());
 
         if (brand == '' || model == '' || description == '' || year == '' || imageUrl == '' || price == '') {
             return alert('Please fill all fields');
