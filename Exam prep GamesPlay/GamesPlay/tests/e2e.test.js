@@ -212,7 +212,7 @@ describe('E2E tests', function() {
         });
     });
 
-    describe.only('Home Page [ 20 Points ]', () => {
+    describe('Home Page [ 20 Points ]', () => {
         it('show empty home page [ 2.5 Points ]', async() => {
             const { get } = await handle(endpoints.catalog);
             get([]);

@@ -7,8 +7,7 @@ import { registerPage } from './views/register.js';
 import { createPage } from './views/create.js';
 import { detailsPage } from './views/details.js';
 import { editPage } from './views/edit.js';
-// import { myCarsPage } from './views/my-listing.js';
-// import { allListingPage } from './views/all-listing.js';
+import { allListingPage } from './views/catalogue.js';
 
 const root = document.querySelector('#main-content');
 document.getElementById('logoutBtn').addEventListener('click', onLogout);
@@ -21,8 +20,7 @@ page('/register', registerPage);
 page('/create', createPage);
 page('/details/:id', detailsPage);
 page('/edit/:id', editPage);
-// page('/my-listing', myCarsPage);
-// page('/all-listing', allListingPage);
+page('/catalogue', allListingPage);
 
 updateUserNav();
 page.start();
