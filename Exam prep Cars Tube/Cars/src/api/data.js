@@ -28,3 +28,7 @@ export async function editCar(id, car) {
 export async function deleteCar(id) {
     return api.del('/data/cars/' + id);
 }
+
+export async function search(query) {
+    return api.get(`/data/cars?where=year%3D${query}`)
+}

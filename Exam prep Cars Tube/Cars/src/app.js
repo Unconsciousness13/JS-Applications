@@ -9,6 +9,7 @@ import { detailsPage } from './views/details.js';
 import { editPage } from './views/edit.js';
 import { myCarsPage } from './views/my-listing.js';
 import { allListingPage } from './views/all-listing.js';
+import { searchPage } from './views/byYear.js'
 
 const root = document.getElementById('site-content');
 document.getElementById('logoutBtn').addEventListener('click', onLogout);
@@ -23,6 +24,7 @@ page('/details/:id', detailsPage);
 page('/edit/:id', editPage);
 page('/my-listing', myCarsPage);
 page('/all-listing', allListingPage);
+page('/by-year', searchPage)
 
 updateUserNav();
 page.start();
