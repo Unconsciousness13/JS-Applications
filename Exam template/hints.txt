@@ -1,0 +1,2 @@
+1. В индекса да се импортира <script src="/app" type ="module"></script>
+2.
