@@ -17,7 +17,6 @@ async function request(url, options) {
 
     } catch (err) {
         alert(err.message)
-            // notify(err.message);
         throw err;
     }
 }
@@ -59,24 +58,20 @@ export async function login(email, password) {
     const result = await post('/users/login', { email, password });
 
     const userData = {
-        username: result.username,
         email: result.email,
         id: result._id,
-        gender: result.gender,
         token: result.accessToken
     }
     setUserData(userData);
 
     return result;
 }
-export async function register(username, email, password, gender) {
-    const result = await post('/users/register', { username, email, password, gender });
+export async function register(email, password) {
+    const result = await post('/users/register', { email, password });
 
     const userData = {
-        username: result.username,
         email: result.email,
         id: result._id,
-        gender: result.gender,
         token: result.accessToken
     }
     setUserData(userData);
